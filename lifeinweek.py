@@ -26,7 +26,7 @@ if __name__ == '__main__':
         },
         '/static': {
             'tools.staticdir.on': True,
-            'tools.staticdir.dir': 'muffler./public'
+            'tools.staticdir.dir': './muffler./public'
         }
     }
 
@@ -37,7 +37,7 @@ if __name__ == '__main__':
         },
         '/static': {
             'tools.staticdir.on': True,
-            'tools.staticdir.dir': 'lifeinweek./public'
+            'tools.staticdir.dir': './lifeinweek./public'
         }
     }
 
