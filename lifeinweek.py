@@ -41,7 +41,8 @@ if __name__ == '__main__':
         }
     }
 
-    cherrypy.config.update({'server.socket_port': 80})
+    cherrypy.config.update({'server.socket_port': 80,
+                            'server.socket_host': '0.0.0.0'})
     webapp_LifeInWeek = LifeInWeek()
     webapp_muffler = MufflerVPR()
     webapp_muffler.mufflerVPRDataProvider = MufflerVPRWebService()
