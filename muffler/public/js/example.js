@@ -48,7 +48,7 @@ var CommentBox = React.createClass({
   render: function() {
     return (
       <div className="commentBox">
-        <h1>Comments</h1>
+
         <CommentList data={this.state.data} />
         <CommentForm onCommentSubmit={this.handleCommentSubmit}/>
       </div>
@@ -70,7 +70,7 @@ var CommentList = React.createClass({
       //<div className="commentList">
       <div className="panel panel-default">
 
-        <div className="panel-heading">Plot Data</div>
+        <div className="panel-heading">Muffer VPR Plot Data</div>
         <div className="panel-body">
           <p>Here is the data that used to generate the plot above.</p>
         </div>
@@ -143,7 +143,7 @@ var CommentForm = React.createClass({
   render: function() {
     return (
         <div className="panel panel-default">
-  <div className="panel-heading">Adding another muffler case</div>
+  <div className="panel-heading">Adding Another Muffler Case</div>
   <div className="panel-body">
 
       <form className="commentForm" onSubmit={this.handleSubmit}>
@@ -153,7 +153,7 @@ var CommentForm = React.createClass({
       <div className="col-lg-2">
       <div className="input-group input-group-sm">
             <span className="input-group-addon">Label</span>
-            <input type="text" className="form-control" placeholder="" ref="author"/>
+            <input type="text" className="form-control" placeholder="Product Nr." ref="author"/>
       </div>
       </div>
 
