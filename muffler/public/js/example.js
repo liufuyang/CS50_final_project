@@ -61,18 +61,69 @@ var CommentList = React.createClass({
   render: function() {
       var commentNodes = this.props.data.map(function (comment) {
             return (
-              <Comment key={comment.author} author={comment.author} >
-                {comment.text}
+              <Comment key={comment.author} author={comment.author} text={comment.text}>
+                //{comment.text}
               </Comment>
             );
       });
     return (
-      <div className="commentList">
+      //<div className="commentList">
+      <div className="panel panel-default">
+
+        <div className="panel-heading">Plot Data</div>
+        <div className="panel-body">
+          <p>Here is the data that used to generate the plot above.</p>
+        </div>
+
+        <table className="table">
+
+        <thead>
+        <tr>
+            <th>Muffler Label</th>
+            <th>Length</th>
+            <th>Width</th>
+            <th>Height</th>
+            <th>Volume</th>
+            <th>Power</th>
+            <th>VPR</th>
+        </tr>
+        </thead>
+        <tbody>
         {commentNodes}
-      </div>
+        </tbody>
+
+        </table>
+        </div>
+      //</div>
     );
   }
 });
+
+
+var Comment = React.createClass({
+
+  render: function() {
+    return (
+        <tr>
+            <th>{this.props.author}</th>
+            <td>{this.props.text}</td>
+            <td>Width</td>
+            <td>Height</td>
+            <td>Volume</td>
+            <td>Power</td>
+            <td>VPR</td>
+        </tr>
+
+      //<div  className="comment">
+        //<h2 className="commentAuthor">
+         // {this.props.author}
+        //</h2>
+        //{this.props.children}
+      //</div>
+    );
+  }
+});
+
 
 var CommentForm = React.createClass({
     handleSubmit: function(e) {
@@ -91,28 +142,70 @@ var CommentForm = React.createClass({
 
   render: function() {
     return (
+        <div className="panel panel-default">
+  <div className="panel-heading">Adding another muffler case</div>
+  <div className="panel-body">
+
       <form className="commentForm" onSubmit={this.handleSubmit}>
-      <input type="text" placeholder="Your name" ref="author"/>
-      <input type="text" placeholder="Say something..." ref="text"/>
-      <input type="submit" value="Post" />
-      </form>
-    );
-  }
-});
 
-var Comment = React.createClass({
+      <div className="row">
 
-  render: function() {
-    return (
-      <div  className="comment">
-        <h2 className="commentAuthor">
-          {this.props.author}
-        </h2>
-        {this.props.children}
+      <div className="col-lg-2">
+      <div className="input-group input-group-sm">
+            <span className="input-group-addon">Label</span>
+            <input type="text" className="form-control" placeholder="" ref="author"/>
       </div>
+      </div>
+
+      <div className="col-lg-2">
+      <div className="input-group input-group-sm">
+            <span className="input-group-addon">Length</span>
+            <input type="text" className="form-control" placeholder="in mm" ref="text"/>
+      </div>
+      </div>
+
+      <div className="col-lg-2">
+      <div className="input-group input-group-sm">
+            <span className="input-group-addon">Width</span>
+          <input type="text" className="form-control" placeholder="in mm" ref="width"/>
+       </div>
+       </div>
+
+       <div className="col-lg-2">
+       <div className="input-group input-group-sm">
+             <span className="input-group-addon">Height</span>
+           <input type="text" className="form-control" placeholder="in mm" ref="height"/>
+        </div>
+        </div>
+
+        <div className="col-lg-2">
+        <div className="input-group input-group-sm">
+              <span className="input-group-addon">Power</span>
+            <input type="text" className="form-control" placeholder="in kW" ref="power"/>
+         </div>
+         </div>
+
+
+
+         <div className="col-lg-2">
+         <div className="input-group input-group-sm">
+         <button  type="submit" className="btn btn-success btn-sm" >
+             Submit
+         </button>
+         </div>
+         </div>
+         </div>
+
+      </form>
+
+      </div>
+     </div>
+
     );
   }
 });
+
+
 
 ReactDOM.render(
   <CommentBox url="/muffler/mufflerVPRDataProvider" pollInterval={2000}  />,
