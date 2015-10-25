@@ -2,8 +2,8 @@ import os
 import os.path
 import cherrypy
 
-from muffler import MufflerVPR
-from muffler import MufflerVPRWebService
+from mufflerVPR.muffler import MufflerVPR
+from mufflerVPR.muffler import MufflerVPRWebService
 
 class LifeInWeek(object):
     @cherrypy.expose
@@ -43,13 +43,15 @@ if __name__ == '__main__':
 
     cherrypy.config.update({'server.socket_port': 80,
                             'server.socket_host': '0.0.0.0',
-                            'engine.autoreload_on': False,
+                            'engine.autoreload.on': True,
                             'log.access_file': './access.log',
                             'log.error_file': './error.log'})
-                            
+
     webapp_LifeInWeek = LifeInWeek()
-    webapp_muffler = MufflerVPR()
-    webapp_muffler.mufflerVPRDataProvider = MufflerVPRWebService()
+
+    mufflerDataService = MufflerVPRWebService('data.xlsx')
+    webapp_muffler = MufflerVPR(mufflerDataService)
+    webapp_muffler.mufflerVPRDataProvider = mufflerDataService
 
     #cherrypy.quickstart(webapp, '/', conf)
     cherrypy.tree.mount(webapp_LifeInWeek, '/', conf_lifeinweek)
