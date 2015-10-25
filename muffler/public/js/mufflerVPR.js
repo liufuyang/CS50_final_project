@@ -1,9 +1,9 @@
 
 
 // tutorial1.js
-var CommentBox = React.createClass({
+var MufflerVPRDataBox = React.createClass({
 
-    loadCommentsFromServer: function() {
+    loadMufflerVPRDatasFromServer: function() {
         $.ajax({
           url: this.props.url,
           dataType: 'json',
@@ -17,19 +17,21 @@ var CommentBox = React.createClass({
         });
     },
 
-    handleCommentSubmit: function(comment) {
+    handleMufflerVPRDataSubmit: function(mufflerData) {
         // draw data on page before submit
-        var comments = this.state.data;
-        var newComments = comments.concat([comment]);
-        this.setState({data: newComments});
+        var mufflerDatas = this.state.data;
+        var newMufflerVPRDatas = mufflerDatas.concat([mufflerData]);
+        this.setState({data: newMufflerVPRDatas});
+
         // TODO: submit to the server and refresh the list
         $.ajax({
           url: this.props.url,
           dataType: 'json',
           type: 'POST',
-          data: comment,
+          data: mufflerData,
           success: function(data) {
-            this.setState({data: data});
+            this.setState({data: data,
+                            picture_id: this.state.picture_id+1});
           }.bind(this),
           error: function(xhr, status, err) {
             console.error(this.props.url, status, err.toString());
@@ -38,19 +40,19 @@ var CommentBox = React.createClass({
     },
 
     getInitialState: function() {
-    return {data: []};
+    return {data: [], picture_id:1 };
   },
   componentDidMount: function() {
-      this.loadCommentsFromServer();
-      setInterval(this.loadCommentsFromServer, this.props.pollInterval);
+      this.loadMufflerVPRDatasFromServer();
+      setInterval(this.loadMufflerVPRDatasFromServer, this.props.pollInterval);
   },
 
   render: function() {
     return (
-        <div className="commentBox">
-            <PlotPanel data={this.state.data} />
-            <CommentList data={this.state.data} />
-            <CommentForm onCommentSubmit={this.handleCommentSubmit}/>
+        <div className="mufflerDataBox">
+            <PlotPanel picture_id={this.state.picture_id} />
+            <MufflerVPRDataList data={this.state.data} />
+            <MufflerVPRDataForm onMufflerVPRDataSubmit={this.handleMufflerVPRDataSubmit}/>
         </div>
     );
   }
@@ -59,16 +61,14 @@ var CommentBox = React.createClass({
 var PlotPanel = React.createClass({
 
     render: function() {
-        var data = this.props.data.map(function (comment) {
-            return (comment.label);
-        });
 
+        var url = "image.png?id=" + this.props.picture_id;
         return(
             <div className="panel panel-default">
                 <div className="panel-heading">Muffler Volume Power Ratio Plot</div>
                 <div className="panel-body">
                     <p className="text-center">
-                    <img src="image.png" width="960" height="720" border="0" />
+                    <img src={url}  width="960" height="720" border="0" />
                     </p>
                 </div>
 
@@ -78,25 +78,24 @@ var PlotPanel = React.createClass({
 });
 
 // tutorial2.js
-var CommentList = React.createClass({
+var MufflerVPRDataList = React.createClass({
   render: function() {
-      var commentNodes = this.props.data.map(function (comment) {
+      var mufflerDataNodes = this.props.data.map(function (mufflerData) {
             return (
-              <Comment key={comment.label}
-                       label={comment.label}
-                       length={comment.length}
-                       width={comment.width}
-                       height={comment.height}
-                       volume={comment.volume}
-                       power={comment.power}
-                       VPR={comment.VPR}
+              <MufflerVPRData key={mufflerData.label}
+                       label={mufflerData.label}
+                       length={mufflerData.length}
+                       width={mufflerData.width}
+                       height={mufflerData.height}
+                       volume={mufflerData.volume}
+                       power={mufflerData.power}
+                       VPR={mufflerData.VPR}
                        >
-                //{comment.text}
-              </Comment>
+              </MufflerVPRData>
             );
       });
     return (
-      //<div className="commentList">
+      //<div className="mufflerDataList">
       <div className="panel panel-default">
 
         <div className="panel-heading">Muffer VPR Plot Data</div>
@@ -118,7 +117,7 @@ var CommentList = React.createClass({
         </tr>
         </thead>
         <tbody>
-        {commentNodes}
+        {mufflerDataNodes}
         </tbody>
 
         </table>
@@ -129,32 +128,34 @@ var CommentList = React.createClass({
 });
 
 
-var Comment = React.createClass({
+var MufflerVPRData = React.createClass({
 
   render: function() {
-    return (
-        <tr>
-            <th>{this.props.label}</th>
-            <td>{this.props.length}</td>
-            <td>{this.props.width}</td>
-            <td>{this.props.height}</td>
-            <td>{this.props.volume.toFixed(0)}</td>
-            <td>{this.props.power}</td>
-            <td>{this.props.VPR.toFixed(2)}</td>
-        </tr>
+      // Formating output
 
-      //<div  className="comment">
-        //<h2 className="commentAuthor">
-         // {this.props.author}
-        //</h2>
-        //{this.props.children}
-      //</div>
+    var volume = this.props.volume;
+    var VPR = this.props.VPR;
+
+    volume = volume != 'undefined' ? volume : volume.toFixed(0);
+    VPR = VPR != 'undefined' ? VPR : VPR.toFixed(0);
+
+    // Render data row
+    return (
+    <tr>
+        <th>{this.props.label}</th>
+        <td>{this.props.length}</td>
+        <td>{this.props.width}</td>
+        <td>{this.props.height}</td>
+        <td>{volume}</td>
+        <td>{this.props.power}</td>
+        <td>{VPR}</td>
+    </tr>
     );
   }
 });
 
 
-var CommentForm = React.createClass({
+var MufflerVPRDataForm = React.createClass({
     handleSubmit: function(e) {
     e.preventDefault();
     var label = this.refs.label.value.trim();
@@ -167,7 +168,7 @@ var CommentForm = React.createClass({
       return;
     }
     // TODO: send request to the server
-    this.props.onCommentSubmit({label: label, length: length,
+    this.props.onMufflerVPRDataSubmit({label: label, length: length,
                                 width: width, height: height, power: power});
     this.refs.label.value = '';
     this.refs.length.value = '';
@@ -183,7 +184,7 @@ var CommentForm = React.createClass({
   <div className="panel-heading">Adding Another Muffler Case</div>
   <div className="panel-body">
 
-      <form className="commentForm" onSubmit={this.handleSubmit}>
+      <form className="mufflerDataForm" onSubmit={this.handleSubmit}>
 
       <div className="row">
 
@@ -245,6 +246,6 @@ var CommentForm = React.createClass({
 
 
 ReactDOM.render(
-  <CommentBox url="/muffler/mufflerVPRDataProvider" pollInterval={20000}  />,
+  <MufflerVPRDataBox url="/muffler/mufflerVPRDataProvider" pollInterval={20000}  />,
   document.getElementById('content')
 );

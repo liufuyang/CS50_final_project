@@ -1,6 +1,7 @@
 import pandas as pd
 #import numpy as np
 import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.pylab as plb
 
@@ -32,7 +33,6 @@ class MufflerVPRDataBackEnd(object):
 
 class MufflerVPRPlotLoader(object):
     def __init__(self):
-        matplotlib.use('Agg')
         plt.style.use('ggplot')
         plt.style.use('dark_background')
 
@@ -45,7 +45,7 @@ class MufflerVPRPlotLoader(object):
                           s=300, marker="o", alpha=0.8,
                           cmap=plt.get_cmap('Spectral'))  # RdYlBu #Spectral
 
-        plt.legend(('Muffler VPR', ), loc='upper right')
+        plt.legend((r'$VPR = 30\frac{V [L]}{P [kW]}$', ), loc='upper right')
 
         plt.plot([-100, 1000], [10, 10])
 
@@ -61,10 +61,10 @@ class MufflerVPRPlotLoader(object):
 
         plb.xlim([-100, 1000])
         plb.xlabel('Engine Power')
-        plb.ylabel('Volume to Power Ratio')
-        plb.title('Volume to Power Ratio Plot')
+        plb.ylabel('VPR')
+        plb.title('Volume to Power Ratio (VPR) Plot')
 
         fig = plt.gcf()
-        fig.set_size_inches(14, 9.9)
+        fig.set_size_inches(12, 8.5)
 
         plt.savefig(image, format='png')

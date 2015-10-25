@@ -1,8 +1,7 @@
 
 import cherrypy
 # import datetime
-
-import pandas as pd
+#import pandas as pd
 
 from cStringIO import StringIO
 
@@ -29,10 +28,9 @@ class MufflerVPR(object):
         return self.data
 
     @cherrypy.expose
-    def image_png(self):
+    def image_png(self, **params):
         img = StringIO()
         plotLoader().generateVPRPlot(self.dataService.getData(), img)
-        #self.plot(img)
         img.seek(0)
         return cherrypy.lib.static.serve_fileobj(img,
                                                  content_type="png",
@@ -66,7 +64,7 @@ class MufflerVPRWebService(object):
     @cherrypy.tools.json_out()
     def POST(self, label='label1', length='100', width='100', height='100', power='100'):
         # some_string = ''.join(random.sample(string.hexdigits, int(length)))
-        if self.dataBN.getLength() < 20:
+        if self.dataBN.getLength() < 30:
             self.dataBN.addDFDataRow(label, length, width, height, power)
         # cherrypy.session['mystring'] = some_string
         return self.dataBN.getDFDictData()  # Output dict data in json format
