@@ -64,7 +64,10 @@ class MufflerVPRWebService(object):
     @cherrypy.tools.json_out()
     def POST(self, label='label1', length='100', width='100', height='100', power='100'):
         # some_string = ''.join(random.sample(string.hexdigits, int(length)))
-        if self.dataBN.getLength() < 30:
+        if self.dataBN.getLength() < 42:
+            self.dataBN.addDFDataRow(label, length, width, height, power)
+        else:
+            self.dataBN.loadData()
             self.dataBN.addDFDataRow(label, length, width, height, power)
         # cherrypy.session['mystring'] = some_string
         return self.dataBN.getDFDictData()  # Output dict data in json format

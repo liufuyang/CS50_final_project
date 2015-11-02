@@ -27,6 +27,12 @@ if __name__ == '__main__':
         '/static': {
             'tools.staticdir.on': True,
             'tools.staticdir.dir': './muffler/public'
+        },
+
+        "/favicon.ico": {
+            "tools.staticfile.on": True,
+            "tools.staticfile.filename": os.path.join(os.path.abspath(os.getcwd()),
+                                                      "./lifeinweek/public/time.ico")
         }
     }
 
@@ -38,6 +44,11 @@ if __name__ == '__main__':
         '/static': {
             'tools.staticdir.on': True,
             'tools.staticdir.dir': './lifeinweek/public'
+        },
+        "/favicon.ico": {
+            "tools.staticfile.on": True,
+            "tools.staticfile.filename": os.path.join(os.path.abspath(os.getcwd()),
+                                                      "./lifeinweek/public/time.ico")
         }
     }
 
@@ -49,7 +60,7 @@ if __name__ == '__main__':
 
     webapp_LifeInWeek = LifeInWeek()
 
-    mufflerDataService = MufflerVPRWebService('data.xlsx')
+    mufflerDataService = MufflerVPRWebService('data.xls')
     webapp_muffler = MufflerVPR(mufflerDataService)
     webapp_muffler.mufflerVPRDataProvider = mufflerDataService
 

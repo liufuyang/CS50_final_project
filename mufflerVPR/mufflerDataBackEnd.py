@@ -1,14 +1,18 @@
 import pandas as pd
 #import numpy as np
 import matplotlib
-matplotlib.use('Agg')
+matplotlib.use('agg')
 import matplotlib.pyplot as plt
 import matplotlib.pylab as plb
 
 class MufflerVPRDataBackEnd(object):
 
     def __init__(self, file_name):
-        xlsx = pd.ExcelFile(file_name)
+        self.file_name = file_name
+        self.loadData()
+
+    def loadData(self):
+        xlsx = pd.ExcelFile(self.file_name)
         # xlsx.sheet_names
         self.df1 = xlsx.parse('Sheet1')
 
@@ -58,8 +62,10 @@ class MufflerVPRPlotLoader(object):
                 arrowprops= dict(arrowstyle='-', connectionstyle='arc3,rad=0', color=lable_color))
 
         plt.colorbar(sc1)
+        plt.clim(3, 35)
 
-        plb.xlim([-100, 1000])
+        plb.xlim([-50, 450])
+        plb.ylim([0, 35])
         plb.xlabel('Engine Power')
         plb.ylabel('VPR')
         plb.title('Volume to Power Ratio (VPR) Plot')

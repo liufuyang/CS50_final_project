@@ -9,7 +9,8 @@ var MufflerVPRDataBox = React.createClass({
           dataType: 'json',
           cache: false,
           success: function(data) {
-            this.setState({data: data});
+            this.setState({data: data,
+                            picture_id: this.state.data.length+1});
           }.bind(this),
           error: function(xhr, status, err) {
             console.error(this.props.url, status, err.toString());
@@ -68,7 +69,7 @@ var PlotPanel = React.createClass({
                 <div className="panel-heading">Muffler Volume Power Ratio Plot</div>
                 <div className="panel-body">
                     <p className="text-center">
-                    <img src={url}  width="960" height="720" border="0" />
+                    <img src={url}  width="1024" height="720" border="0" />
                     </p>
                 </div>
 
@@ -136,8 +137,8 @@ var MufflerVPRData = React.createClass({
     var volume = this.props.volume;
     var VPR = this.props.VPR;
 
-    volume = volume != 'undefined' ? volume : volume.toFixed(0);
-    VPR = VPR != 'undefined' ? VPR : VPR.toFixed(0);
+    volume = typeof(volume) != 'undefined' ? volume.toFixed(0) : volume;
+    VPR = typeof(VPR) != 'undefined' ? VPR.toFixed(2) : VPR;
 
     // Render data row
     return (
@@ -246,6 +247,6 @@ var MufflerVPRDataForm = React.createClass({
 
 
 ReactDOM.render(
-  <MufflerVPRDataBox url="/muffler/mufflerVPRDataProvider" pollInterval={20000}  />,
+  <MufflerVPRDataBox url="/muffler/mufflerVPRDataProvider" pollInterval={2000}  />,
   document.getElementById('content')
 );
